@@ -212,6 +212,56 @@ options:
     description: Whether to allow users to set environment variables.
     required: false
     type: bool
+  
+    subsystem:
+    description: Defines a subsystem such as SFTP.
+    required: false
+    type: str
+
+  use_dns:
+    description: Whether to perform reverse DNS lookups on client IPs.
+    required: false
+    type: bool
+    choices: [true, false]
+
+  permit_tty:
+    description: Whether TTY allocation is permitted.
+    required: false
+    type: bool
+    choices: [true, false]
+
+  force_command:
+    description: Forces execution of a specific command after login.
+    required: false
+    type: str
+
+  authorized_keys_file:
+    description: Location(s) of the user's public key file(s).
+    required: false
+    type: str
+
+  permit_user_rc:
+    description: Whether to allow user-specific shell rc files (e.g. ~/.ssh/rc).
+    required: false
+    type: bool
+    choices: [true, false]
+
+  stream_local_bind_unlink:
+    description: Whether to remove existing socket file before binding when using Unix domain sockets.
+    required: false
+    type: bool
+    choices: [true, false]
+
+  rekey_limit:
+    description: Maximum amount of data or time before SSH rekeys connection (e.g. '1G', '1h').
+    required: false
+    type: str
+
+  login_defs:
+    description: Whether to honor system-wide /etc/login.defs settings.
+    required: false
+    type: bool
+    choices: [true, false]
 
   config_file:
     description: Path to SSH daemon configuration file
@@ -519,6 +569,23 @@ def run_module():
             required=False,
             default=None
         ),
+        authorized_keys_file=dict(
+            type='str',
+            required=False,
+            default=None
+        ),
+        permit_user_rc=dict(
+            type='bool',
+            required=False,
+            choices=[True, False],
+            default=None
+        ),
+        login_defs=dict(
+            type='bool',
+            required=False,
+            choices=[True, False],
+            default=None
+        ),
 
         # SSH Protocol Settings
         protocol=dict(
@@ -529,6 +596,23 @@ def run_module():
         ),
         port=dict(
             type='int',
+            required=False,
+            default=None
+        ),
+        use_dns=dict(
+            type='bool',
+            required=False,
+            choices=[True, False],
+            default=None
+        ),
+        stream_local_bind_unlink=dict(
+            type='bool',
+            required=False,
+            choices=[True, False],
+            default=None
+        ),
+        rekey_limit=dict(
+            type='str',
             required=False,
             default=None
         ),
@@ -559,6 +643,11 @@ def run_module():
             required=False,
             default=None
         ),
+        force_command=dict(
+            type='str',
+            required=False,
+            default=None
+        ),
 
         # SSH Session Settings
         client_alive_interval=dict(
@@ -579,6 +668,12 @@ def run_module():
         max_startups=dict(
             type='str',
             required=False,
+            default=None
+        ),
+        permit_tty=dict(
+            type='bool',
+            required=False,
+            choices=[True, False],
             default=None
         ),
 
@@ -676,6 +771,11 @@ def run_module():
             required=False,
             default=None
         ),
+        subsystem=dict(
+            type='str',
+            required=False,
+            default=None
+        ),
 
         # Module Control Settings
         config_file=dict(
@@ -760,7 +860,16 @@ def run_module():
         'banner': 'Banner',
         'hostbased_authentication': 'HostbasedAuthentication',
         'rhosts_rsa_authentication': 'RhostsRSAAuthentication',
-        'permit_user_environment': 'PermitUserEnvironment'
+        'permit_user_environment': 'PermitUserEnvironment',
+        'subsystem': 'Subsystem',
+        'use_dns': 'UseDNS',
+        'permit_tty': 'PermitTTY',
+        'force_command': 'ForceCommand',
+        'authorized_keys_file': 'AuthorizedKeysFile',
+        'permit_user_rc': 'PermitUserRC',
+        'stream_local_bind_unlink': 'StreamLocalBindUnlink',
+        'rekey_limit': 'RekeyLimit',
+        'login_defs': 'LoginDefs'
     }
 
     # Convert boolean values to yes/no for SSH config

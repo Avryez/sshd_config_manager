@@ -102,6 +102,7 @@ ansible-galaxy collection install /path/to/avryez.sshd_config_manager.tar.gz
     password_authentication: false
     pubkey_authentication: true
 ```
+
 **More comprehensive SSH hardening**
 ```yaml
 - name: Comprehensive SSH hardening

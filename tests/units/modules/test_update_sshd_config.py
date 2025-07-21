@@ -8,7 +8,7 @@ import stat
 
 # Get the absolute path to the collection root
 collection_root = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "..")
+    os.path.join(os.path.dirname(__file__), "..", "..", "..")
 )
 module_path = os.path.join(collection_root, "plugins", "modules")
 sys.path.insert(0, module_path)

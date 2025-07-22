@@ -263,6 +263,18 @@ options:
     type: bool
     choices: [true, false]
 
+  gssapi_authentication:
+    description: Whether GSSAPI-based user authentication is allowed.
+    required: false
+    type: bool
+    choices: [true, false]
+
+  kerberos_authentication:
+    description: Whether Kerberos authentication is allowed.
+    required: false
+    type: bool
+    choices: [true, false]
+
   config_file:
     description: Path to SSH daemon configuration file
     required: false
@@ -586,6 +598,18 @@ def run_module():
             choices=[True, False],
             default=None
         ),
+        gssapi_authentication=dict(
+            type='bool',
+            required=False,
+            choices=[True, False],
+            default=None
+        ),
+        kerberos_authentication=dict(
+            type='bool',
+            required=False,
+            choices=[True, False],
+            default=None
+        ),
 
         # SSH Protocol Settings
         protocol=dict(
@@ -869,7 +893,9 @@ def run_module():
         'permit_user_rc': 'PermitUserRC',
         'stream_local_bind_unlink': 'StreamLocalBindUnlink',
         'rekey_limit': 'RekeyLimit',
-        'login_defs': 'LoginDefs'
+        'login_defs': 'LoginDefs',
+        'gssapi_authentication': 'GSSAPIAuthentication',
+        'kerberos_authentication': 'KerberosAuthentication',
     }
 
     # Convert boolean values to yes/no for SSH config

@@ -92,6 +92,9 @@ ansible-galaxy collection install avryez.sshd_config_manager
 | validate                    | No       | bool    | Whether to validate SSH configuration after changes                                            | true, false                                                                            | true         |
 | restart_service             | No       | bool    | Whether to restart SSH service after successful changes                                        | true, false                                                                            | false        |
 | service_name                | No       | str     | Name of the SSH service to restart                                                             |                                                                                         | ssh          |
+| gssapi_authentication        | No       | bool    | Whether GSSAPI-based user authentication is allowed                                              | true, false                                                                            |              |
+| kerberos_authentication      | No       | bool    | Whether Kerberos authentication is allowed                                                      | true, false                                                                            |              |
+
 
 ## Return Values
 

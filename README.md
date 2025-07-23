@@ -180,4 +180,4 @@ For full details on all available parameters, see the [update_sshd_config module
 
 
 ## License Information
-This collection is licensed under the [MIT License](LICENSE).
+This collection is licensed under the [MIT License](README.md).

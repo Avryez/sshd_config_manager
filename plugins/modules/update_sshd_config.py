@@ -213,7 +213,7 @@ options:
     required: false
     type: bool
   
-    subsystem:
+  subsystem:
     description: Defines a subsystem such as SFTP.
     required: false
     type: str

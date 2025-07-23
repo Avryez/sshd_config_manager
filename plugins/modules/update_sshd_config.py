@@ -281,6 +281,12 @@ options:
     type: bool
     choices: [true, false]
 
+  strict_modes:
+    description: Whether to check file modes and ownership of user files before accepting login.
+    required: false
+    type: bool
+    choices: [true, false]
+
   config_file:
     description: Path to SSH daemon configuration file
     required: false
@@ -688,6 +694,11 @@ def run_module():
             required=False,
             default=None
         ),
+        strict_modes=dict(
+            type='bool',
+            required=False,
+            default=None
+        ),
 
         # SSH Session Settings
         client_alive_interval=dict(
@@ -913,6 +924,7 @@ def run_module():
         'gssapi_authentication': 'GSSAPIAuthentication',
         'kerberos_authentication': 'KerberosAuthentication',
         'ignore_user_known_hosts': 'IgnoreUserKnownHosts',
+        'strict_modes': 'StrictModes',
     }
 
     # Convert boolean values to yes/no for SSH config

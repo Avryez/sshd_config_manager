@@ -96,7 +96,7 @@ ansible-galaxy collection install /path/to/avryez.sshd_config_manager.tar.gz
 **Basic SSH hardening**
 ```yaml
 - name: Basic SSH hardening
-  avryez.sshd_config_manager.update_ssh_config:
+  avryez.sshd_config_manager.update_sshd_config:
     max_auth_tries: 3
     permit_root_login: "no"
     password_authentication: false
@@ -106,7 +106,7 @@ ansible-galaxy collection install /path/to/avryez.sshd_config_manager.tar.gz
 **More comprehensive SSH hardening**
 ```yaml
 - name: Comprehensive SSH hardening
-  avryez.sshd_config_manager.update_ssh_config:
+  avryez.sshd_config_manager.update_sshd_config:
     max_auth_tries: 3
     permit_root_login: "no"
     password_authentication: false

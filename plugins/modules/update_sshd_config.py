@@ -275,6 +275,12 @@ options:
     type: bool
     choices: [true, false]
 
+  ignore_user_known_hosts:
+    description: Whether to ignore the user's known hosts file.
+    required: false
+    type: bool
+    choices: [true, false]
+
   config_file:
     description: Path to SSH daemon configuration file
     required: false
@@ -423,17 +429,22 @@ def get_current_ssh_setting(config_file, setting_name):
     for i, line in enumerate(lines):
         line = line.strip()
 
+        # Check for commented lines
         if line.startswith('#'):
-            match = re.search(
-                rf'#\s*{re.escape(setting_name)}\s+(.+)', line, re.IGNORECASE)
+            uncommented = line[1:].lstrip()
+            
+            # Use regex to match the setting name at the start, optionally followed by whitespace and value
+            match = re.match(rf'^{re.escape(setting_name)}(?:\s+(.+))?$', uncommented, re.IGNORECASE)
             if match:
-                return match.group(1).strip(), i, True
+                value = match.group(1) if match.group(1) else ""
+                return value.strip(), i, True
 
-        elif re.match(rf'^{re.escape(setting_name)}\s+', line, re.IGNORECASE):
-            match = re.search(
-                rf'^{re.escape(setting_name)}\s+(.+)', line, re.IGNORECASE)
+        # Check for active (non-commented) settings
+        else:
+            match = re.match(rf'^{re.escape(setting_name)}(?:\s+(.+))?$', line, re.IGNORECASE)
             if match:
-                return match.group(1).strip(), i, False
+                value = match.group(1) if match.group(1) else ""
+                return value.strip(), i, False
 
     return None, None, None
 
@@ -672,6 +683,11 @@ def run_module():
             required=False,
             default=None
         ),
+        ignore_user_known_hosts=dict(
+            type='bool',
+            required=False,
+            default=None
+        ),
 
         # SSH Session Settings
         client_alive_interval=dict(
@@ -896,6 +912,7 @@ def run_module():
         'login_defs': 'LoginDefs',
         'gssapi_authentication': 'GSSAPIAuthentication',
         'kerberos_authentication': 'KerberosAuthentication',
+        'ignore_user_known_hosts': 'IgnoreUserKnownHosts',
     }
 
     # Convert boolean values to yes/no for SSH config

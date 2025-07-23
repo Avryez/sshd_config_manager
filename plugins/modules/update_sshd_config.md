@@ -95,6 +95,7 @@ ansible-galaxy collection install avryez.sshd_config_manager
 | gssapi_authentication        | No       | bool    | Whether GSSAPI-based user authentication is allowed                                              | true, false                                                                            |              |
 | kerberos_authentication      | No       | bool    | Whether Kerberos authentication is allowed                                                      | true, false                                                                            |              |
 | ignore_user_known_hosts       | No       | bool    | Whether to ignore the user's known hosts file                                                    | true, false                                                                            |              |
+| strict_modes                  | No       | bool    | Whether to check file modes and ownership of user files before accepting login                   | true, false                                                                            |              |
 
 ## Return Values
 

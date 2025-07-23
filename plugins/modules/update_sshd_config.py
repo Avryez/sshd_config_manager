@@ -287,6 +287,62 @@ options:
     type: bool
     choices: [true, false]
 
+ciphers:
+    description: Specifies the ciphers allowed for protocol version 2.
+    required: false
+    type: str
+
+  macs:
+    description: Specifies the available MAC (message authentication code) algorithms.
+    required: false
+    type: str
+
+  kex_algorithms:
+    description: Specifies the available KEX (Key Exchange) algorithms.
+    required: false
+    type: str
+
+  listen_address:
+    description: Specifies the local addresses sshd should listen on.
+    required: false
+    type: str
+
+  address_family:
+    description: Specifies which address family should be used by sshd.
+    required: false
+    type: str
+    choices: [inet, inet6, any]
+
+  host_key_algorithms:
+    description: Specifies the host key algorithms that the server offers.
+    required: false
+    type: str
+
+  pubkey_accepted_algorithms:
+    description: Specifies the signature algorithms that will be accepted for public key authentication.
+    required: false
+    type: str
+
+  accept_env:
+    description: Specifies what environment variables sent by the client will be copied.
+    required: false
+    type: str
+
+  trusted_user_ca_keys:
+    description: Specifies a file containing public keys of certificate authorities trusted to sign user certificates.
+    required: false
+    type: path
+
+  revoked_keys:
+    description: Specifies revoked public keys file or none to not use one.
+    required: false
+    type: path
+
+  set_env:
+    description: Specifies one or more environment variables to set in child sessions.
+    required: false
+    type: str
+
   config_file:
     description: Path to SSH daemon configuration file
     required: false
@@ -593,6 +649,11 @@ def run_module():
             required=False,
             default=None
         ),
+        pubkey_accepted_algorithms=dict(
+            type='str',
+            required=False,
+            default=None
+        ),
         challenge_response_authentication=dict(
             type='bool',
             required=False,
@@ -627,6 +688,16 @@ def run_module():
             choices=[True, False],
             default=None
         ),
+        trusted_user_ca_keys=dict(
+            type='path',
+            required=False,
+            default=None
+        ),
+        revoked_keys=dict(
+            type='path',
+            required=False,
+            default=None
+        ),
 
         # SSH Protocol Settings
         protocol=dict(
@@ -655,6 +726,17 @@ def run_module():
         rekey_limit=dict(
             type='str',
             required=False,
+            default=None
+        ),
+        listen_address=dict(
+            type='str',
+            required=False,
+            default=None
+        ),
+        address_family=dict(
+            type='str',
+            required=False,
+            choices=['inet', 'inet6', 'any'],
             default=None
         ),
 
@@ -696,6 +778,26 @@ def run_module():
         ),
         strict_modes=dict(
             type='bool',
+            required=False,
+            default=None
+        ),
+        ciphers=dict(
+            type='str',
+            required=False,
+            default=None
+        ),
+        macs=dict(
+            type='str',
+            required=False,
+            default=None
+        ),
+        kex_algorithms=dict(
+            type='str',
+            required=False,
+            default=None
+        ),
+        host_key_algorithms=dict(
+            type='str',
             required=False,
             default=None
         ),
@@ -827,6 +929,16 @@ def run_module():
             required=False,
             default=None
         ),
+        accept_env=dict(
+            type='str',
+            required=False,
+            default=None
+        ),
+        set_env=dict(
+            type='str',
+            required=False,
+            default=None
+        ),
 
         # Module Control Settings
         config_file=dict(
@@ -925,6 +1037,17 @@ def run_module():
         'kerberos_authentication': 'KerberosAuthentication',
         'ignore_user_known_hosts': 'IgnoreUserKnownHosts',
         'strict_modes': 'StrictModes',
+        'ciphers': 'Ciphers',
+        'macs': 'MACs',
+        'kex_algorithms': 'KexAlgorithms',
+        'listen_address': 'ListenAddress',
+        'address_family': 'AddressFamily',
+        'host_key_algorithms': 'HostKeyAlgorithms',
+        'pubkey_accepted_algorithms': 'PubkeyAcceptedAlgorithms',
+        'accept_env': 'AcceptEnv',
+        'trusted_user_ca_keys': 'TrustedUserCAKeys',
+        'revoked_keys': 'RevokedKeys',
+        'set_env': 'SetEnv',
     }
 
     # Convert boolean values to yes/no for SSH config

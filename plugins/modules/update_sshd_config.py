@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright: (c) 2025, Avryez
+# Copyright: (c) 2025, avryez
 # Licensed under the MIT License
 # See LICENSE file in the project root for full license details.
 from __future__ import (absolute_import, division, print_function)
@@ -642,7 +642,8 @@ def run_module():
         password_authentication=dict(
             type='bool',
             required=False,
-            default=None
+            default=None,
+            no_log=True
         ),
         pubkey_authentication=dict(
             type='bool',
